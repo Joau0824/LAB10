@@ -9,6 +9,7 @@ import javax.servlet.annotation.*;
 @WebServlet(name = "helloServlet", value = "")
 public class LoginServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+
         RequestDispatcher view = request.getRequestDispatcher("/Login.jsp");
         view.forward(request,response);
     }

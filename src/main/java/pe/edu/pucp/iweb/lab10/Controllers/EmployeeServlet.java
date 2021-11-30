@@ -22,9 +22,11 @@ public class EmployeeServlet extends HttpServlet {
         PaisDao paisDao =  new PaisDao();
         DepartamentosDao departamentosDao = new DepartamentosDao();
         RequestDispatcher view;
+        System.out.println("Rol es: "+rol);
         switch (action){
             case "listar":
                 if(rol.equalsIgnoreCase("Top 1")){
+                    System.out.println("Coloco el rol");
                     session.setAttribute("listaEmpleados",employeeDao.listarEmpleados());
                 }else if(rol.equalsIgnoreCase("Top 2")){
                     session.setAttribute("listaTrabajos",jobDao.listarTrabajos());
@@ -33,6 +35,7 @@ public class EmployeeServlet extends HttpServlet {
                 }else if(rol.equalsIgnoreCase("Top 4")){
                     session.setAttribute("listaPaises",paisDao.listar());
                 }
+                System.out.println("Voy a entrar a la vista");
                 view = request.getRequestDispatcher("/Employee.jsp");
                 view.forward(request, response);
                 break;

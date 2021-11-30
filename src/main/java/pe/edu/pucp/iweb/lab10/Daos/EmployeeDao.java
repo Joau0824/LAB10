@@ -10,6 +10,23 @@ import java.util.ArrayList;
 
 public class EmployeeDao extends BaseDao{
 
+    public boolean esJefe(int idPersona){
+        boolean esjefe = false;
+        String sql = "SELECT * FROM departments WHERE manager_id = ?";
+        try(Connection conn = this.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setInt(1,idPersona);
+            try(ResultSet rs = pstmt.executeQuery();) {
+                if(rs.next()){
+                    esjefe = true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return esjefe;
+    }
+
     public Employee obtenerEmpleado(int employeeId) {
 
         Employee employee = null;
@@ -39,9 +56,15 @@ public class EmployeeDao extends BaseDao{
                     employee.setCommissionPct(rs.getBigDecimal(9));
 
                     Employee manager = new Employee();
-                    manager.setEmployeeId(rs.getInt(10));
+                    int id_manager = rs.getInt(10);
+                    if (esJefe(employeeId)){
+                        System.out.println( "Estamos procesando a "+ rs.getString(2) + "y es un jefe");
+                        manager.setEmployeeId(0);
+                    }else{
+                        System.out.println( "Estamos procesando a "+ rs.getString(2));
+                        manager = this.obtenerEmpleado(id_manager);
+                    }
                     employee.setManager(manager);
-
                     Department department = new Department();
                     department.setDepartmentId(rs.getInt(11));
                     employee.setDepartment(department);
@@ -70,22 +93,7 @@ public class EmployeeDao extends BaseDao{
         }
         return employee;
     }
-    public boolean esJefe(int idPersona){
-        boolean esjefe = false;
-        String sql = "SELECT * FROM departments WHERE manager_id = ?";
-        try(Connection conn = this.getConnection();
-        PreparedStatement pstmt = conn.prepareStatement(sql)) {
-            pstmt.setInt(1,idPersona);
-            try(ResultSet rs = pstmt.executeQuery();) {
-                if(rs.next()){
-                    esjefe = true;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return esjefe;
-    }
+
 
     public String obtenerRol(Employee employee) {
         String rol=null;
@@ -146,7 +154,12 @@ public class EmployeeDao extends BaseDao{
                     manager.setFirstName(rs.getString("m.first_name"));
                     manager.setLastName(rs.getString("m.last_name"));
                     employee.setManager(manager);
+                }else {
+                    Employee manager = new Employee();
+                    manager.setEmployeeId(0);
+                    employee.setManager(manager);
                 }
+
                 if (rs.getInt("e.department_id") != 0) {
                     Department department = new Department();
                     department.setDepartmentId(rs.getInt(11));

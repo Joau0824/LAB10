@@ -30,6 +30,7 @@ public class PrincipalServlet extends HttpServlet {
                 Employee employee = employeeDao.validar(email,password);
                 if(employee != null){
                     session.setAttribute("employee", employee);
+                    System.out.println("El id del manager es"+employee.getManager().getEmployeeId());
                     System.out.println(employeeDao.obtenerRol(employee));
                     session.setAttribute("rol", employeeDao.obtenerRol(employee));
                     response.sendRedirect(request.getContextPath()+"/EmployeeServlet");
