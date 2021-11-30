@@ -38,21 +38,22 @@
             </div>
             <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
                 <h1 class="text-lg-center">LOGIN LABORATORIO 10</h1>
-                <form>
+                <br>
+                <form method="post" action="<%=request.getContextPath()%>/PrincipalServlet">
                     <div class="divider d-flex align-items-center my-4">
                         <p class="text-center fw-bold mx-3 mb-0"></p>
                     </div>
-
                     <div class="form-outline mb-4">
-                        <input type="email" id="form3Example3" class="form-control form-control-lg"
+                        <input name="email" type="text" id="form3Example3" class="form-control form-control-lg"
                                placeholder="Enter a valid email address" />
                         <label class="form-label" for="form3Example3">Email address</label>
                     </div>
                     <div class="form-outline mb-3">
-                        <input type="password" id="form3Example4" class="form-control form-control-lg"
+                        <input name="contrasena" type="password" id="form3Example4" class="form-control form-control-lg"
                                placeholder="Enter password" />
                         <label class="form-label" for="form3Example4">Password</label>
                     </div>
+                    <button class="btn btn-success" type="submit">Iniciar</button>
                 </form>
             </div>
         </div>
