@@ -1,7 +1,7 @@
 package pe.edu.pucp.iweb.lab10.Controllers;
 
 import pe.edu.pucp.iweb.lab10.Beans.Employee;
-import pe.edu.pucp.iweb.lab10.Daos.PrincipalDao;
+import pe.edu.pucp.iweb.lab10.Daos.EmployeeDao;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -25,11 +25,13 @@ public class PrincipalServlet extends HttpServlet {
         System.out.println(password);
         HttpSession session = request.getSession();
         if (!email.equalsIgnoreCase("") && !email.equalsIgnoreCase("")){
-            PrincipalDao principalDao=new PrincipalDao();
+            EmployeeDao employeeDao =new EmployeeDao();
             try {
-                Employee employee = principalDao.validar(email,password);
+                Employee employee = employeeDao.validar(email,password);
                 if(employee != null){
                     session.setAttribute("employee", employee);
+                    System.out.println(employeeDao.obtenerRol(employee));
+                    session.setAttribute("rol", employeeDao.obtenerRol(employee));
                     response.sendRedirect(request.getContextPath()+"/EmployeeServlet");
                 }else{
                     response.sendRedirect(request.getContextPath());
