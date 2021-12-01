@@ -55,15 +55,8 @@ public class EmployeeDao extends BaseDao{
                     employee.setSalary(rs.getBigDecimal(8));
                     employee.setCommissionPct(rs.getBigDecimal(9));
 
-                    Employee manager = new Employee();
-                    int id_manager = rs.getInt(10);
-                    if (esJefe(employeeId)){
-                        System.out.println( "Estamos procesando a "+ rs.getString(2) + "y es un jefe");
-                        manager.setEmployeeId(0);
-                    }else{
-                        System.out.println( "Estamos procesando a "+ rs.getString(2));
-                        manager = this.obtenerEmpleado(id_manager);
-                    }
+                    Employee manager = this.obtenerEmpleado(rs.getInt(10));
+
                     employee.setManager(manager);
                     Department department = new Department();
                     department.setDepartmentId(rs.getInt(11));
@@ -106,13 +99,13 @@ public class EmployeeDao extends BaseDao{
                 if(rs.next()){
                     BigDecimal bigDecimal = rs.getBigDecimal(1);
                     if(bigDecimal.doubleValue() > 15000 || this.esJefe(employee.getEmployeeId())){
-                        rol = "Top 1";
+                        rol = "T1";
                     }else if(bigDecimal.doubleValue() <= 15000 && bigDecimal.doubleValue() > 8500){
-                        rol = "Top 2";
+                        rol = "T2";
                     }else if(bigDecimal.doubleValue() <= 8500 && bigDecimal.doubleValue() > 5000){
-                        rol = "Top 3";
+                        rol = "T3";
                     }else if(bigDecimal.doubleValue() <= 5000){
-                        rol="Top 4";
+                        rol="T4";
                     }
                 }
 
@@ -122,8 +115,6 @@ public class EmployeeDao extends BaseDao{
         }
         return rol;
     }
-
-
     public ArrayList<Employee> listarEmpleados() {
         ArrayList<Employee> employeeList = new ArrayList<>();
 
@@ -148,18 +139,8 @@ public class EmployeeDao extends BaseDao{
                 employee.setJob(job);
                 employee.setSalary(rs.getBigDecimal(8));
                 employee.setCommissionPct(rs.getBigDecimal(9));
-                if (rs.getInt("e.manager_id") != 0) {
-                    Employee manager = new Employee();
-                    manager.setEmployeeId(rs.getInt("e.manager_id"));
-                    manager.setFirstName(rs.getString("m.first_name"));
-                    manager.setLastName(rs.getString("m.last_name"));
-                    employee.setManager(manager);
-                }else {
-                    Employee manager = new Employee();
-                    manager.setEmployeeId(0);
-                    employee.setManager(manager);
-                }
-
+                Employee manager = new Employee(rs.getInt(10));
+                employee.setManager(manager);
                 if (rs.getInt("e.department_id") != 0) {
                     Department department = new Department();
                     department.setDepartmentId(rs.getInt(11));

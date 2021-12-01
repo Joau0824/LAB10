@@ -3,7 +3,7 @@ package pe.edu.pucp.iweb.lab10.Beans;
 public class Department {
 
 
-    private int departmentId;
+    private Integer departmentId;
     private String departmentName;
     private Employee manager;
     private Location location;

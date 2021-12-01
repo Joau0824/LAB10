@@ -25,19 +25,23 @@ public class EmployeeServlet extends HttpServlet {
         System.out.println("Rol es: "+rol);
         switch (action){
             case "listar":
-                if(rol.equalsIgnoreCase("Top 1")){
-                    System.out.println("Coloco el rol");
-                    session.setAttribute("listaEmpleados",employeeDao.listarEmpleados());
-                }else if(rol.equalsIgnoreCase("Top 2")){
-                    session.setAttribute("listaTrabajos",jobDao.listarTrabajos());
-                }else if(rol.equalsIgnoreCase("Top 3")){
-                    session.setAttribute("listaDepartamentos",departamentosDao.listaDepartamentos());
-                }else if(rol.equalsIgnoreCase("Top 4")){
-                    session.setAttribute("listaPaises",paisDao.listar());
+                if(rol.equalsIgnoreCase("T1")){
+                    request.setAttribute("listaEmpleados",employeeDao.listarEmpleados());
+                    view = request.getRequestDispatcher("/ListaEmpleados.jsp");
+                    view.forward(request, response);
+                }else if(rol.equalsIgnoreCase("T2")){
+                    request.setAttribute("listaTrabajos",jobDao.listarTrabajos());
+                    view = request.getRequestDispatcher("/ListaTrabajos.jsp");
+                    view.forward(request, response);
+                }else if(rol.equalsIgnoreCase("T3")){
+                    request.setAttribute("listaDepartamentos",departamentosDao.listaDepartamentos());
+                    view = request.getRequestDispatcher("/ListaDepartamentos.jsp");
+                    view.forward(request, response);
+                }else if(rol.equalsIgnoreCase("T4")){
+                    request.setAttribute("listaPaises",paisDao.listar());
+                    view = request.getRequestDispatcher("/ListaPaises.jsp");
+                    view.forward(request, response);
                 }
-                System.out.println("Voy a entrar a la vista");
-                view = request.getRequestDispatcher("/Employee.jsp");
-                view.forward(request, response);
                 break;
             case "borrar":
                 break;

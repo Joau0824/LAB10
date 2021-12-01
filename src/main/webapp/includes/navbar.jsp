@@ -51,13 +51,10 @@
             <li class="nav-item">
                 <span class="nav-link text-dark">
                     Bienvenido <%=employee.getFirstName()%> <%=session.getAttribute("rol")%> (<a
-                        href="<%=request.getContextPath()%>/LoginServlet?action=logout">Cerrar sesion</a>)
+                        href="<%=request.getContextPath()%>">Cerrar sesion</a>)
                 </span>
             </li>
-            <% } else { %>
-            <a class="nav-link" style="color: #007bff;" href="<%=request.getContextPath()%>/LoginServlet">(Iniciar
-                Sesion)</a>
-            <% } %>
+            <%}%>
         </ul>
     </div>
 </nav>
